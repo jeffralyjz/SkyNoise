@@ -1,12 +1,12 @@
 import unittest
-import delay
+import delayr
 import numpy as np
 
 class TestDelay(unittest.TestCase):
     def test_delay(self):
         n1 = np.random.randn(100)
         for i in range(99):    
-            n1d=delay.delay(n1,i)
+            n1d=delayr.delay(n1,i)
             if i ==0:
                 self.assertTrue(np.all(n1==n1d))
             else:
