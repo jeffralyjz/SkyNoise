@@ -12,9 +12,8 @@ def delay(a, dt=0):
         # then d_original = [rand1, rand2, A]
         d = np.concatenate((rand, a[:-rand.shape[0]]), axis=0)
         return d
-import numpy as np
 
-
+-------------------------------------------------------------------
 #This function delays the f array by a decimal amount
 def tau(f, tau, graph = 'n')
     #Fourier transform f
