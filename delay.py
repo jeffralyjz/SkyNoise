@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def delay(a, dt=0):
     if type(dt)==int:
@@ -36,7 +35,7 @@ def delay(a, dt=0):
         #Convolving f with phi
         fsh = np.fft.ifft(phi*f_fft)
 
-        #Must take the real since original fct is real
+        #Must take real since org fct is real
         fshr = fsh.real
 
         return fshr

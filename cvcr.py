@@ -6,6 +6,11 @@ def cvcr(f,g, cvcr = 'conv'):
     g_fft = np.fft.fft(g)
 
     if cvcr == 'conv':
-        return np.fft.ifft(f_fft*g_fft)
+        fcvg = np.fft.ifft(f_fft*g_fft)
+        fcvgr = fcvg.real
+        return fcvgr
     elif cvcr == 'corr':
-        return np.fft.ifft(f_fft*g_fft.conj())
+        fcrg = np.fft.ifft(f_fft*g_fft.conj())
+        fcrgr = fcrg.real
+        return fcrgr
+
