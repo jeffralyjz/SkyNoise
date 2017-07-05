@@ -19,24 +19,26 @@ class TestDelay(unittest.TestCase):
 
 
         """Checking FFT"""
-        sine = np.sin(np.linspace(0,2*np.pi, 1000))
+        a = np.linspace(-1*2*np.pi,2*np.pi, 1000)
+#Small delay in sine function
+        sine = np.sin(a)
         dsine = delay.delay(sine,.5)
         dif = np.abs(sine-dsine)
+#Total destructive interference
+#d is fct delay to index delay
+        d = (3.14/(4*np.pi))*1000
+        dsine1= delay.delay(sine, d)
+        dif1 = np.abs(sine + dsine1)
 
-        for i in range(sine.size):
-            self.assertTrue(dif[i]<.1)
-        
-        a = np.random.randn(100)
-        rn = np.random.randint(31)*np.pi
-        da = delay.delay(a, rn)
-        dif = a-da
-
+#Due to slight uncertainty of data when transformed, 
+#the values will be tested to be within a certain tolerance
         for i in range(a.size):
-            rand = np.random.randint(100)
-            if dif[rand]<5 == False:
-                print rand
-                self.assertTrue(dif[rand]<5)
-                
+            if dif[i]>.01:
+                print 'Failed on dif index: ' , i
+                self.assertTrue(dif[i]<.01)
+            if dif1[i]>.1:
+                print 'Failed on dif1 index: ' , i
+                self.assertTrue(dif1[i]<.1)
 
         print 'checked FFT'
 
