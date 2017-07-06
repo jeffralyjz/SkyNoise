@@ -14,9 +14,7 @@ class TestDelay(unittest.TestCase):
             else:
                 self.assertTrue(np.all(n1[:-r]==n1d[r:]))
             
-            
         print 'Checked concatenate'        
-
 
         """Checking FFT"""
         a = np.linspace(-1*2*np.pi,2*np.pi, 1000)
@@ -25,22 +23,25 @@ class TestDelay(unittest.TestCase):
         dsine = delay.delay(sine,.5)
         dif = np.abs(sine-dsine)
 #Total destructive interference
-#d is fct delay to index delay
-        d = (3.14/(4*np.pi))*1000
-        dsine1= delay.delay(sine, d)
+        d1 = 250.
+        d2 = -250.
+        dsine1= delay.delay(sine, d1)
         dif1 = np.abs(sine + dsine1)
+        dsine2 = delay.delay(sine, d2) 
+        dif2 = np.abs(sine + dsine2)       
+        tolerance = .01
 
-#Due to slight uncertainty of data when transformed, 
-#the values will be tested to be within a certain tolerance
         for i in range(a.size):
-            if dif[i]>.01:
-                print 'Failed on dif index: ' , i
-                self.assertTrue(dif[i]<.01)
-            if dif1[i]>.1:
-                print 'Failed on dif1 index: ' , i
-                self.assertTrue(dif1[i]<.1)
-
-        print 'checked FFT'
+            if dif[i] > tolerance:
+                print 'Failed on dif[' , i, ']'
+                self.assertTrue(dif[i] < tolerance)
+            if dif1[i] > tolerance:
+                print 'Failed on dif1[' , i, ']'
+                self.assertTrue(dif1[i] < tolerance)
+            if dif2[i] > tolerance:
+                print 'Failed on dif[' ,i,']'
+                self.assertTrue(dif2[i] < tolerance)
+        print 'Checked FFT'
 
 
 if __name__ == '__main__':

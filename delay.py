@@ -30,13 +30,13 @@ def delay(a, dt=0):
         nu = np.fft.fftfreq(a.shape[0])
 
         #Phase shift(kronecker delta)
-        phi = np.exp(-2*np.pi*1j*nu*dt)
+        phi = np.exp(-2j*np.pi*nu*dt)
 
         #Convolving f with phi
-        fsh = np.fft.ifft(phi*f_fft)
+        fcvp = np.fft.ifft(phi*f_fft)
 
         #Must take real since org fct is real
-        fshr = fsh.real
+        fcvpr = fcvp.real
 
-        return fshr
+        return fcvpr
 
