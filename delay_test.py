@@ -32,15 +32,9 @@ class TestDelay(unittest.TestCase):
         tolerance = .01
 
         for i in range(a.size):
-            if dif[i] > tolerance:
-                print 'Failed on dif[' , i, ']'
-                self.assertTrue(dif[i] < tolerance)
-            if dif1[i] > tolerance:
-                print 'Failed on dif1[' , i, ']'
-                self.assertTrue(dif1[i] < tolerance)
-            if dif2[i] > tolerance:
-                print 'Failed on dif[' ,i,']'
-                self.assertTrue(dif2[i] < tolerance)
+             self.assertTrue(dif[i] < tolerance)
+             self.assertTrue(dif1[i] < tolerance)
+             self.assertTrue(dif2[i] < tolerance)
         print 'Checked FFT'
 
 
