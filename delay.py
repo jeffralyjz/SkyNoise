@@ -1,20 +1,19 @@
 import numpy as np
 
-'''Returns a shifted or wrapped array based on mode 
-Example:
-
-Shifts and wraps (Shifts only integer type delays)
->>>delay([1,2,3,4,5], 3)
-array([3,4,5,1,2])
-
-Shifts and adds guassian noise 
->>>delay([1,2,3,4,5], 3, 'ncon')
-array([randint, randint, randint, 1, 2])
-
-'wfft' mode will shift and wrap an array via convolution theorem
-This mode can handle float type delays 
-'''
 def delay(a, dt, mode='wcon'):
+    '''Returns a shifted or wrapped array based on mode 
+    Example:
+    
+    Shifts and wraps (Shifts only integer type delays)
+    >>>delay([1,2,3,4,5], 3)
+    array([3,4,5,1,2])
+
+    Shifts and adds guassian noise 
+    >>>delay([1,2,3,4,5], 3, 'ncon')
+    array([randint, randint, randint, 1, 2])
+    
+    'wfft' mode will shift and wrap an array via convolution theorem
+    This mode can handle float type delays''' 
     assert (mode in ('wcon' , 'ncon', 'wfft')) #select mode from list
     assert (0 <= dt < a.size) #delay out of possible range
     if mode =='wcon':
@@ -35,13 +34,13 @@ def delay(a, dt, mode='wcon'):
         fcvp = np.fft.ifft(phi*f_fft)
         d_a = fcvp.astype(a.dtype)
         return d_a
-'''This function serves to create multiple arrays that are delayed by some random amount.
-signals: Number of desired signal arrays
-elem: number of elements in signal array
-ld: lowest delay
-hd: highest delay
-'''
+
 def mult(signals, elem, tau='n'):
+    '''This function serves to create multiple arrays that are delayed by some random amount.
+    signals: Number of desired signal arrays
+    elem: number of elements in signal array
+    ld: lowest delay
+    hd: highest delay'''
     assert tau in ('n' , 'rand', 'choose')
     n = np.random.randn(signals, elem)
     if tau == 'n':
@@ -59,3 +58,19 @@ def mult(signals, elem, tau='n'):
             r = input()
             n[i]= delay(n[i], r, 'wfft')
         return n
+
+def dmul(a, mode='wcon'):
+    '''Delays an array of arrays. Each array is delayed by a given amount'''
+    assert (a.shape[1]>0) #dmul only works for array of arrays
+    assert mode in ('wcon' , 'rand' , 'wfft')
+    for i in range(a.shape[0]):
+        if mode =='wfft':
+            f_fft=np.fft.fft(a)
+            nu = np.fft.fftfreq(a[i].size)
+            print 'Delay array ' , i+1, 'by: '
+            dt = input()
+            phi = np.exp(-2j*np.pi*nu*dt)
+            fcvp = np.fft.ifft(phi*f_fft)
+            d_a = fcvp.astype(a.dtype)
+    return d_a
+
